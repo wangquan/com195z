@@ -36,8 +36,18 @@ package com195z.animation
 			_isPlay = false;
 		}
 		
+		//下一帧
+		public function nextFrame():void
+		{
+			if (_isPlay)
+			{
+				_currentFrame++;
+				setFrame(_currentFrame);
+			}
+		}
+		
 		//播放控制器
-		public function nextFrame(passedTime:int):void
+		public function run(passedTime:int):void
 		{
 			if (!_isPlay || passedTime <= 0) return;
 			_frameDurationCount += passedTime;
@@ -49,7 +59,6 @@ package com195z.animation
 				_currentFrame++;
 				setFrame(_currentFrame);
 			}
-			
 		}
 		
 		//帧数范围控制

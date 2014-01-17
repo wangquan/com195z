@@ -9,7 +9,8 @@ package com195z.animation
 	{
 		function play():void;
 		function stop():void;
-		function nextFrame(passedTime:int):void;
+		function nextFrame():void;
+		function run(passedTime:int):void;
 		function gotoAndPlay(frame:int):void;
 		function gotoAndStop(frame:int):void;
 		
