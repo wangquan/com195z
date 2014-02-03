@@ -25,6 +25,7 @@ package com195z.particle
 		
 		public var startRot:Number;//发射图片旋转
 		public var startVarRot:Number;//发射图片旋转变化范围
+		public var vRot:Number;//旋转变值
 		
 		public var startAlpha:Number;//起始透明度
 		public var startVarAlpha:Number;//起始变化范围
@@ -39,7 +40,7 @@ package com195z.particle
 		public function ParticleSystemFormat() 
 		{
 			//初始化 默认值
-			life = 8000;
+			life = 4000;
 			
 			x = 0;
 			y = 0;
@@ -57,6 +58,7 @@ package com195z.particle
 			
 			startRot = 0;
 			startVarRot = 0;
+			vRot = 0;
 			
 			startAlpha = 1;
 			startVarAlpha = 0;
@@ -67,6 +69,47 @@ package com195z.particle
 			gravityX = 0;
 			gravityY = 0;
 			
+		}
+		
+		//根据xml创建一个format
+		public static function getFormatFromXML(xml:XML):ParticleSystemFormat
+		{
+			var format:ParticleSystemFormat = new ParticleSystemFormat();
+			format.setDataFromXML(xml);
+			return format;
+		}
+		
+		//从xml文件中取值
+		public function setDataFromXML(xml:XML):void
+		{
+			life = xml.life;
+			
+			x = xml.x;
+			y = xml.y;
+			startVarX = xml.startVarX;
+			startVarY = xml.startVarY;
+			
+			numParticle = xml.numParticle;
+			
+			startScale = xml.startScale;
+			startVarScale = xml.startVarScale;
+			vScale = xml.vScale;
+			
+			emitterAngle = xml.emitterAngle;
+			emitterVarAngle = xml.emitterVarAngle;
+			
+			startRot = xml.startRot;
+			startVarRot = xml.startVarRot;
+			vRot = xml.vRot;
+			
+			startAlpha = xml.startAlpha;
+			startVarAlpha = xml.startVarAlpha;
+			vAlpha = xml.vAlpha;
+			
+			startSpeed = xml.startSpeed;
+			startVarSpeed = xml.startVarSpeed;
+			gravityX = xml.gravityX;
+			gravityY = xml.gravityY;
 		}
 		
 		//属性

@@ -1,0 +1,109 @@
+title
+{
+	color:#ffffff;
+	font-size: 20;
+	font-weight:bold;
+	text-align:center;
+}
+
+body 
+{
+    
+}
+
+p
+{
+	
+}
+
+button
+{
+	color:#ffffff;
+	font-size:12;
+	font-weight:bold;
+	text-align:center;
+}
+
+center
+{
+	text-align:center;
+}
+left
+{
+	text-align:left;
+}
+right
+{
+	text-align:right;
+}
+
+bold
+{
+	font-weight:bold;
+}
+
+s12
+{
+	font-size:12;
+}
+s14
+{
+	font-size:14;
+}
+s16
+{
+	font-size:16;
+}
+s18
+{
+	font-size:18;
+}
+s20
+{
+	font-size:20;
+}
+s22
+{
+	font-size:22;
+}
+s24
+{
+	font-size:24;
+}
+
+red
+{
+	color:#ff0000;
+}
+black
+{
+	color:#000000;
+}
+blue
+{
+	color:#009cff;
+}
+green
+{
+	color:#00ff00;
+}
+gray
+{
+	color:#8c8c8c;
+}
+white
+{
+	color:#ffffff;
+}
+yellow
+{
+	color:#ffd200;
+}
+purple
+{
+	color:#c000ff;
+}
+pink
+{
+	color:#ff00ea;
+}

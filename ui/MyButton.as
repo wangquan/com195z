@@ -1,11 +1,10 @@
 package com195z.ui 
 {
+	import com195z.ui.basic.BasicContainer;
+	import com195z.ui.basic.BasicTextField;
+	import com195z.ui.basic.global.MyFilters;
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
-	import flash.display.Sprite;
-	import flash.filters.GlowFilter;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
 	import flash.text.TextFieldAutoSize;
 	import flash.events.MouseEvent;
 	
@@ -13,10 +12,9 @@ package com195z.ui
 	 * 基础按钮 四个状态 弹起 悬停 按下 禁用
 	 * @author wq
 	 */
-	public class MyButton extends Sprite
+	public class MyButton extends BasicContainer
 	{
-		private var _textField:TextField;//按钮文字
-		private var _textFormat:TextFormat;
+		private var _textField:BasicTextField;//按钮文字
 		
 		private var _background:Bitmap;//按钮背景
 		private var _upState:BitmapData;
@@ -27,18 +25,21 @@ package com195z.ui
 		private var _oWidth:Number;//缩放前的原始值
 		private var _oHeight:Number;
 		
-		private var _enabled:Boolean;//是否可以使用
+		private var _enabled:Boolean;//启用 激活状态
 		
-		public function MyButton(upState:BitmapData, text:String = "", overState:BitmapData = null, downState:BitmapData = null, disenabledState:BitmapData = null) 
+		private var _callback:Function;//回调函数
+		
+		public function MyButton(upState:BitmapData, text:String = "", overState:BitmapData = null, downState:BitmapData = null, disenabledState:BitmapData = null, callback:Function = null) 
 		{
 			super();
-			this.mouseChildren = false;
 			this.buttonMode = true;
 			
 			_upState = upState;
 			_overState = overState;
 			_downState = downState;
 			_disenabledState = disenabledState;
+			
+			_callback = callback;
 			
 			_background = new Bitmap(_upState);
 			this.addChild(_background);
@@ -50,17 +51,11 @@ package com195z.ui
 			
 			if (text != "" && text != null)
 			{
-				_textFormat = new TextFormat();
-				_textFormat.bold = true;
-				_textFormat.size = 12;
-				_textFormat.color = 0xffffff;
-				
-				_textField = new TextField();
+				_textField = new BasicTextField();
 				_textField.mouseEnabled = false;
-				_textField.defaultTextFormat = _textFormat;
 				_textField.autoSize = TextFieldAutoSize.CENTER;
-				_textField.filters = [new GlowFilter(0x000000, 1, 2, 2, 16)];
-				_textField.text = text;
+				_textField.filters = MyFilters.BLACK_GLOW;
+				_textField.htmlText = "<button>" + text + "</button>";
 				_textField.x = _background.width - _textField.width >> 1;
 				_textField.y = _background.height - _textField.height >> 1;
 				
@@ -69,9 +64,10 @@ package com195z.ui
 			
 			//添加事件
 			this.addEventListener(MouseEvent.MOUSE_UP, onUp);
-			this.addEventListener(MouseEvent.MOUSE_OVER, onOver);
-			this.addEventListener(MouseEvent.MOUSE_OUT, onOut);
+			this.addEventListener(MouseEvent.ROLL_OVER, onOver);
+			this.addEventListener(MouseEvent.ROLL_OUT, onOut);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, onDown);
+			this.addEventListener(MouseEvent.CLICK, onClick);
 		}
 		
 		//鼠标事件
@@ -108,6 +104,14 @@ package com195z.ui
 			}
 		}
 		
+		private function onClick(e:MouseEvent):void
+		{
+			if (_callback != null)
+			{
+				_callback();
+			}
+		}
+		
 		//属性
 		public function set enabled(value:Boolean):void
 		{
@@ -128,52 +132,10 @@ package com195z.ui
 			return _enabled;
 		}
 		
-		//文字相关
-		public function get textField():TextField
+		//文字
+		public function get textField():BasicTextField
 		{
 			return _textField;
-		}
-		
-		//字体大小
-		public function set fontSize(value:uint):void
-		{
-			if (_textFormat != null)
-			{
-				_textFormat.size = value;
-				resetFont();
-			}
-		}
-		
-		//字体颜色
-		public function set fontColor(value:uint):void
-		{
-			if (_textFormat != null)
-			{
-				_textFormat.color = value;
-				resetFont();
-			}
-		}
-		
-		//字体
-		public function set font(value:String):void
-		{
-			if (_textFormat != null)
-			{
-				_textFormat.font = value;
-				resetFont();
-			}
-		}
-		
-		//重置下文字
-		private function resetFont():void
-		{
-			if (_textField != null)
-			{
-				_textField.defaultTextFormat = _textFormat;
-				_textField.text = _textField.text;
-				_textField.x = _oWidth - _textField.width >> 1;
-				_textField.y = _oHeight - _textField.height >> 1;
-			}
 		}
 		
 		//图片资源
@@ -218,14 +180,29 @@ package com195z.ui
 			return _disenabledState;
 		}
 		
+		//回调函数
+		public function set callback(value:Function):void
+		{
+			_callback = value;
+		}
+		
+		public function get callback():Function
+		{
+			return _callback;
+		}
+		
 		
 		//清除数据
-		public function dispose():void
+		override public function dispose():void
 		{
+			super.dispose();
 			this.removeEventListener(MouseEvent.MOUSE_UP, onUp);
-			this.removeEventListener(MouseEvent.MOUSE_OVER, onOver);
-			this.removeEventListener(MouseEvent.MOUSE_OUT, onOut);
+			this.removeEventListener(MouseEvent.ROLL_OVER, onOver);
+			this.removeEventListener(MouseEvent.ROLL_OUT, onOut);
 			this.removeEventListener(MouseEvent.MOUSE_DOWN, onDown);
+			this.removeEventListener(MouseEvent.CLICK, onClick);
+			
+			_textField.dispose();
 		}
 		
 	}

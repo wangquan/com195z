@@ -134,12 +134,13 @@ package com195z.particle
 				_tempParticle = _particles[i];
 				
 				_tempParticle.life -= passedTime;
+				
 				if (_format.vAlpha != 0)_tempParticle.alpha -= _format.vAlpha;
 				if (_format.vScale != 0)_tempParticle.scale -= _format.vScale;
+				if (_format.vRot != 0)_tempParticle.rotation -= _format.vRot;
+				
 				_tempParticle.vX += _format.gravityX;
 				_tempParticle.vY += _format.gravityY;
-				
-				if (_format.vScale != 0) _tempParticle.scale += _format.vScale;
 				
 				_tempParticle.x += _tempParticle.vX;
 				_tempParticle.y += _tempParticle.vY;
@@ -183,9 +184,24 @@ package com195z.particle
 			return _isStop;
 		}
 		
+		public function set format(value:ParticleSystemFormat):void
+		{
+			_format = value;
+		}
+		
 		public function get format():ParticleSystemFormat
 		{
 			return _format;
+		}
+		
+		public function set bitmapData(value:BitmapData):void
+		{
+			_bitmapData = value;
+		}
+		
+		public function get bitmapData():BitmapData
+		{
+			return _bitmapData;
 		}
 		
 		
